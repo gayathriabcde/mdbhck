@@ -1,5 +1,6 @@
 # Web & Queue
 Flask>=3.0.2
+Flask-Cors>=4.0.0
 celery>=5.3.6
 redis>=5.0.3
 pymongo>=4.6.2
@@ -21,3 +22,4 @@ psutil>=5.9.8
 
 #media ingestion
 yt-dlp>=2025.01.01
+easyocr>=1.7.1

@@ -745,6 +745,171 @@
         }
         .step-dissonance svg { width: 9px; height: 9px; }
 
+        /* Mode switch, live progress, citations */
+        .mode-switch {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.35rem;
+            width: fit-content;
+            margin: 1rem auto 0;
+            padding: 0.3rem;
+            border-radius: 999px;
+            border: 1px solid var(--border-dim);
+            background: rgba(0, 0, 0, 0.35);
+        }
+        .mode-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-family: inherit;
+            font-size: 0.72rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 0.5rem 0.9rem;
+            border-radius: 999px;
+            cursor: pointer;
+        }
+        .mode-btn.active {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-magenta));
+            color: var(--bg-dark);
+            font-weight: 700;
+        }
+
+        .progress-dock {
+            display: none;
+            flex-direction: column;
+            gap: 0.75rem;
+            width: 100%;
+            max-width: 720px;
+            margin: 1rem auto 0;
+        }
+        .progress-job {
+            padding: 0.85rem 1rem;
+            border-radius: 10px;
+            border: 1px solid var(--border-dim);
+            background: rgba(5, 8, 16, 0.75);
+        }
+        .progress-job-title {
+            font-size: 0.78rem;
+            margin-bottom: 0.55rem;
+            color: var(--text-primary);
+            word-break: break-all;
+        }
+        .progress-track {
+            height: 8px;
+            border-radius: 999px;
+            background: rgba(0, 255, 245, 0.1);
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            width: 0;
+            border-radius: inherit;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-magenta));
+            transition: width 0.35s ease;
+        }
+        .progress-job.is-done .progress-fill { background: #00ff64; }
+        .progress-job.is-error .progress-fill { background: #ff6b6b; }
+        .progress-label {
+            margin-top: 0.45rem;
+            font-size: 0.75rem;
+            color: var(--accent-cyan);
+        }
+        .progress-job.is-error .progress-label { color: #ff6b6b; }
+        .progress-job.is-done .progress-label { color: #00ff64; }
+
+        .analytics-card {
+            margin-bottom: 1.25rem;
+            padding: 1.25rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-dim);
+            background: var(--bg-card);
+        }
+        .analytics-label {
+            font-size: 0.68rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            margin-bottom: 0.8rem;
+        }
+        .narrative {
+            font-size: 0.9rem;
+            line-height: 1.75;
+            color: var(--text-primary);
+        }
+        .citation {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.2rem;
+            margin: 0 0.15rem;
+            padding: 0.05rem 0.5rem;
+            border-radius: 999px;
+            border: 1px solid var(--border-glow);
+            background: rgba(0, 255, 245, 0.12);
+            color: var(--accent-cyan);
+            font-family: inherit;
+            font-size: 0.72rem;
+            font-weight: 700;
+            cursor: pointer;
+            vertical-align: baseline;
+        }
+        .citation:hover { background: rgba(0, 255, 245, 0.24); }
+
+        .diff-table {
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+            margin-top: 1rem;
+        }
+        .diff-row {
+            padding: 0.8rem;
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.28);
+            border-left: 3px solid var(--accent-cyan);
+        }
+        .diff-step {
+            font-size: 0.66rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--accent-yellow);
+            margin-bottom: 0.35rem;
+        }
+        .diff-summary {
+            font-size: 0.82rem;
+            line-height: 1.55;
+            margin-bottom: 0.55rem;
+        }
+        .diff-videos { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .diff-cell {
+            flex: 1 1 180px;
+            text-align: left;
+            background: rgba(0, 255, 245, 0.05);
+            border: 1px solid var(--border-dim);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: inherit;
+            padding: 0.6rem 0.7rem;
+            cursor: pointer;
+        }
+        .diff-cell:hover { border-color: var(--accent-cyan); }
+        .diff-time {
+            display: block;
+            color: var(--accent-cyan);
+            font-size: 0.72rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+        .diff-caption { display: block; font-size: 0.78rem; line-height: 1.4; }
+        .step-ts-col::before { content: '▶ '; font-size: 0.62rem; }
+
+        .citation-stage { margin-top: 1rem; }
+        .citation-stage-label {
+            font-size: 0.72rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.45rem;
+        }
+
         /* EMPTY STATE */
         .empty-state {
             text-align: center;
@@ -798,14 +963,21 @@
                 <input type="text" id="searchQuery" placeholder="Search your video library..." autocomplete="off" spellcheck="false">
                 <button class="search-btn" id="searchBtn">Search</button>
             </div>
-            <p class="search-hint">Try: "How do I connect the wires?" · "What is gradient descent?" · "Setup the development environment"</p>
+            <p class="search-hint" id="searchHint">Try: "How do I connect the wires?" · "What is gradient descent?" · "Setup the development environment"</p>
+            <div class="mode-switch" id="modeSwitch">
+                <button type="button" class="mode-btn active" data-mode="library">Search library</button>
+                <button type="button" class="mode-btn" data-mode="url">Paste URL</button>
+                <button type="button" class="mode-btn" data-mode="discover">YouTube search</button>
+            </div>
         </div>
 
         <div class="status-bar" id="searchStatus"></div>
+        <div class="progress-dock" id="progressDock"></div>
     </div>
 
     <!-- RESULTS AREA -->
     <div class="results-area" id="resultsArea" style="display:none">
+        <div class="analytics-card" id="analyticsCard" style="display:none"></div>
         <div class="results-header">
             <span class="results-label">Most Relevant Videos</span>
             <span class="results-count" id="resultsCountLabel"></span>
@@ -846,7 +1018,11 @@
 </div>
 
 <script>
-    const API_BASE = 'http://localhost:5000/api';
+    const API_BASE = (location.protocol === 'file:')
+        ? 'http://localhost:5000/api'
+        : `${location.origin}/api`;
+    let searchMode = 'library';
+    const progressSources = new Map();
 
     // Helpers
     function formatTime(s) {
@@ -869,6 +1045,119 @@
     }
     function hideStatus(id) {
         document.getElementById(id).className = 'status-bar';
+    }
+
+    function escapeHtml(value) {
+        return String(value ?? '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
+    function setSearchMode(mode) {
+        searchMode = mode;
+        document.querySelectorAll('#modeSwitch .mode-btn').forEach((button) => {
+            button.classList.toggle('active', button.dataset.mode === mode);
+        });
+        const input = document.getElementById('searchQuery');
+        const button = document.getElementById('searchBtn');
+        const hint = document.getElementById('searchHint');
+        if (mode === 'url') {
+            input.placeholder = 'Paste one or more YouTube URLs...';
+            button.textContent = 'Ingest';
+            hint.textContent = 'Paste a link to index it. A live progress bar shows Silero VAD, BLIP captions, and EasyOCR.';
+        } else if (mode === 'discover') {
+            input.placeholder = 'Search YouTube, e.g. how to replace a bike tube';
+            button.textContent = 'Find videos';
+            hint.textContent = 'Fetches the top 3–5 videos, skips anything already indexed, and ingests the rest.';
+        } else {
+            input.placeholder = 'Search your video library...';
+            button.textContent = 'Search';
+            hint.textContent = 'Try: "How do I connect the wires?" · "What is gradient descent?" · "Setup the development environment"';
+        }
+    }
+
+    document.getElementById('modeSwitch').addEventListener('click', (event) => {
+        const button = event.target.closest('.mode-btn');
+        if (!button) return;
+        setSearchMode(button.dataset.mode);
+    });
+
+    function ensureJobRow(taskId, label) {
+        const dock = document.getElementById('progressDock');
+        dock.style.display = 'flex';
+        let row = document.getElementById(`job-${taskId}`);
+        if (row) return row;
+        row = document.createElement('div');
+        row.className = 'progress-job';
+        row.id = `job-${taskId}`;
+        row.innerHTML = `
+            <div class="progress-job-title"></div>
+            <div class="progress-track"><div class="progress-fill"></div></div>
+            <div class="progress-label">Waiting for the worker...</div>`;
+        row.querySelector('.progress-job-title').textContent = label || taskId;
+        dock.appendChild(row);
+        return row;
+    }
+
+    function updateJobRow(taskId, data) {
+        const row = ensureJobRow(taskId, data.video_id || taskId);
+        const percent = Math.max(0, Math.min(100, Number(data.percent) || 0));
+        row.querySelector('.progress-fill').style.width = `${percent}%`;
+        const stage = data.stage || 'Working...';
+        const label = data.status === 'error' ? stage : `${stage} ${percent}%`;
+        row.querySelector('.progress-label').textContent = data.detail ? `${label} — ${data.detail}` : label;
+        row.classList.toggle('is-error', data.status === 'error');
+        row.classList.toggle('is-done', data.status === 'success');
+    }
+
+    function subscribeProgress(taskId, label) {
+        if (!taskId) return;
+        ensureJobRow(taskId, label);
+        if (progressSources.has(taskId)) return;
+        const source = new EventSource(`${API_BASE}/progress/${encodeURIComponent(taskId)}`);
+        progressSources.set(taskId, source);
+        source.onmessage = (event) => {
+            let data;
+            try { data = JSON.parse(event.data); } catch (err) { return; }
+            updateJobRow(taskId, data);
+            if (data.status === 'success' || data.status === 'error') source.close();
+        };
+    }
+
+    function trackIngestResponse(data, fallbackLabel) {
+        const label = data.title || data.url || fallbackLabel;
+        if (data.task_id && (data.status === 'queued' || data.status === 'processing')) {
+            subscribeProgress(data.task_id, label);
+        } else if (data.status === 'indexed') {
+            updateJobRow(`indexed-${data.video_id || label}`, {
+                stage: 'Already in the library.',
+                percent: 100,
+                status: 'success'
+            });
+        }
+        trackQueuedItems(data.results, fallbackLabel);
+    }
+
+    function trackQueuedItems(items, fallbackLabel) {
+        (items || []).forEach((item) => {
+            const label = item.title || item.url || item.video_id || fallbackLabel;
+            if (item.task_id && (item.status === 'queued' || item.status === 'processing')) {
+                subscribeProgress(item.task_id, label);
+            } else if (item.status === 'indexed') {
+                const key = `indexed-${item.video_id || label}`;
+                updateJobRow(key, { stage: 'Already in the library.', percent: 100, status: 'success', video_id: label });
+            }
+        });
+    }
+
+    function renderNarrative(text) {
+        return escapeHtml(text).replace(/\{\{cite:([^:}]+):([0-9.]+)\}\}/g, (_, videoId, timestamp) => {
+            const seconds = Number(timestamp);
+            return `<button type="button" class="citation" onclick="playCitation('${escapeHtml(videoId)}', ${seconds})">▶ ${formatTime(seconds)}</button>`;
+        });
     }
 
     // Dissonance threshold for warning icon
@@ -917,6 +1206,7 @@
             const data = await res.json();
             if (res.ok) {
                 showStatus('ingestStatus', `✓ ${data.message || 'Video queued successfully'} (Task: ${data.task_id || '—'})`, 'success');
+                trackIngestResponse(data, url);
             } else {
                 showStatus('ingestStatus', `Error: ${data.error || 'Failed to process video'}`, 'error');
             }
@@ -940,13 +1230,71 @@
     async function doSearch() {
         const query = document.getElementById('searchQuery').value.trim();
         if (!query) { showStatus('searchStatus','Please enter a search query','error'); return; }
+        if (searchMode === 'url') return ingestFromSearch(query);
+        if (searchMode === 'discover') return discoverFromSearch(query);
+        return searchLibrary(query);
+    }
 
-        // Compact the landing hero
+    async function ingestFromSearch(text) {
+        document.getElementById('searchLanding').classList.add('compact');
+        showStatus('searchStatus', 'Queueing video...', 'processing');
+        document.getElementById('searchBtn').disabled = true;
+        const urls = text.match(/https?:\/\/\S+/g) || [];
+        const body = urls.length === 1 ? { url: urls[0] } : { query: text };
+        try {
+            const res = await fetch(`${API_BASE}/ingest`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body)
+            });
+            const data = await res.json();
+            if (!res.ok) {
+                showStatus('searchStatus', data.error || 'Could not queue that video', 'error');
+                return;
+            }
+            showStatus('searchStatus', data.message || 'Ingestion queued', 'success');
+            trackIngestResponse(data, data.title || data.url || text);
+        } catch (err) {
+            showStatus('searchStatus', `Network error: ${err.message}`, 'error');
+        } finally {
+            document.getElementById('searchBtn').disabled = false;
+        }
+    }
+
+    async function discoverFromSearch(query) {
+        document.getElementById('searchLanding').classList.add('compact');
+        showStatus('searchStatus', 'Searching YouTube and checking the source registry...', 'processing');
+        document.getElementById('searchBtn').disabled = true;
+        try {
+            const res = await fetch(`${API_BASE}/discover`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ query, limit: 5 })
+            });
+            const data = await res.json();
+            if (!res.ok) {
+                showStatus('searchStatus', data.error || 'YouTube discovery failed', 'error');
+                return;
+            }
+            const count = (data.results || []).length;
+            showStatus('searchStatus', `Found ${count} video${count === 1 ? '' : 's'}. ${data.dispatched || 0} queued for ingestion.`, 'success');
+            trackQueuedItems(data.results, query);
+        } catch (err) {
+            showStatus('searchStatus', `Network error: ${err.message}`, 'error');
+        } finally {
+            document.getElementById('searchBtn').disabled = false;
+        }
+    }
+
+    async function searchLibrary(query) {
         document.getElementById('searchLanding').classList.add('compact');
         showStatus('searchStatus','Searching knowledge graph...','processing');
         document.getElementById('searchBtn').disabled = true;
         document.getElementById('resultsArea').style.display = 'none';
         document.getElementById('emptyState').style.display = 'none';
+        const analyticsCard = document.getElementById('analyticsCard');
+        analyticsCard.style.display = 'none';
+        analyticsCard.innerHTML = '';
 
         try {
             const res = await fetch(`${API_BASE}/query`, {
@@ -959,15 +1307,94 @@
             if (res.ok && data.data && data.data.length > 0) {
                 hideStatus('searchStatus');
                 renderGallery(data.data);
-            } else {
+            } else if (res.ok) {
                 hideStatus('searchStatus');
                 document.getElementById('emptyState').style.display = 'block';
+            } else {
+                showStatus('searchStatus', data.error || 'Search failed', 'error');
             }
+            if (res.ok) loadAnalytics(query);
         } catch (err) {
             showStatus('searchStatus', `Network error: ${err.message}`, 'error');
         } finally {
             document.getElementById('searchBtn').disabled = false;
         }
+    }
+
+    async function loadAnalytics(query) {
+        const card = document.getElementById('analyticsCard');
+        card.style.display = 'block';
+        card.innerHTML = '<div class="analytics-label">Comparing steps...</div>';
+        document.getElementById('resultsArea').style.display = 'block';
+        try {
+            const res = await fetch(`${API_BASE}/analytics`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ query, limit: 5 })
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || 'Analytics failed');
+            renderAnalytics(data);
+        } catch (err) {
+            card.innerHTML = `<div class="analytics-label">Comparison unavailable: ${escapeHtml(err.message)}</div>`;
+        }
+    }
+
+    function renderAnalytics(data) {
+        const card = document.getElementById('analyticsCard');
+        const rows = (data.differences || []).map((diff) => {
+            const cells = (diff.videos || []).map((step) => `
+                <button type="button" class="diff-cell" onclick="playCitation('${escapeHtml(step.video_id)}', ${Number(step.timestamp) || 0})">
+                    <span class="diff-time">${formatTime(step.timestamp)}</span>
+                    <span class="diff-caption">${escapeHtml(step.visual_caption || step.audio_transcript || '—')}</span>
+                </button>`).join('');
+            return `
+                <div class="diff-row">
+                    <div class="diff-step">Step ${escapeHtml(diff.step_index)}</div>
+                    <div class="diff-summary">${renderNarrative(diff.summary || '')}</div>
+                    <div class="diff-videos">${cells}</div>
+                </div>`;
+        }).join('');
+
+        card.innerHTML = `
+            <div class="analytics-label">Step comparison · ${escapeHtml(data.provider || 'template')}</div>
+            <div class="narrative">${renderNarrative(data.narrative || '')}</div>
+            <div class="diff-table">${rows}</div>
+            <div class="citation-stage" id="citationStage" style="display:none">
+                <div class="citation-stage-label" id="citationStageLabel"></div>
+                <div class="card-player" id="citationPlayer"></div>
+            </div>`;
+    }
+
+    function playCitation(videoId, startSec) {
+        const seconds = Math.floor(Number(startSec) || 0);
+        const card = document.getElementById(`card-${videoId}`);
+        if (card && card._grp) {
+            const detail = document.getElementById(`detail-${videoId}`);
+            detail.classList.add('open');
+            card.classList.add('expanded');
+            card.dataset.expanded = 'true';
+            if (!renderedCards.has(videoId)) {
+                renderedCards.add(videoId);
+                renderCardDetail(videoId, card._grp);
+            }
+            jumpInCard(videoId, seconds);
+            card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            return;
+        }
+
+        const stage = document.getElementById('citationStage');
+        const player = document.getElementById('citationPlayer');
+        if (!stage || !player) return;
+        stage.style.display = 'block';
+        document.getElementById('citationStageLabel').textContent = `${videoId} at ${formatTime(seconds)}`;
+        player.innerHTML = `
+            <iframe
+                src="https://www.youtube.com/embed/${encodeURIComponent(videoId)}?start=${seconds}&autoplay=1"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+            </iframe>`;
+        stage.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
     // Group & rank by video_id
@@ -997,6 +1424,11 @@
         countLabel.textContent = `Top ${groups.length} video${groups.length !== 1 ? 's' : ''} · ${nodes.length} moments`;
 
         gallery.innerHTML = groups.map((grp, i) => buildCard(grp, i + 1)).join('');
+        groups.forEach((grp) => {
+            const ytId = extractVideoId(grp.video_id) || grp.video_id;
+            const card = document.getElementById(`card-${ytId}`);
+            if (card) card._grp = grp;
+        });
         document.getElementById('resultsArea').style.display = 'block';
     }
 

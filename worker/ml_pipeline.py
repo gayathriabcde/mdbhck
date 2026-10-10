@@ -3,7 +3,7 @@ import subprocess
 import glob
 import numpy as np
 from PIL import Image
-from bson.objectid import ObjectId  # Natively installed with PyMongo
+from bson.objectid import ObjectId
 from faster_whisper import WhisperModel
 from sentence_transformers import SentenceTransformer
 from transformers import AutoProcessor, AutoModelForCausalLM

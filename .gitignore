@@ -1,8 +1,41 @@
+# # --- Python / Environment ---
+# .venv/
+# __pycache__/
+# *.py[cod]
+# *$py.class
+# .env
+
+# # --- Project Specific Data ---
+# # We don't want to push the downloaded YouTube videos or processed frames
+# temp_vids/
+# temp_frames/
+# dataset_to_label.csv
+# dataset.csv
+# training/raw_videos
+
+# # --- ML Models & Weights ---
+# # Florence-2 and SentenceTransformers can be large; usually kept in local cache
+# .cache/
+# *.pth
+# *.bin
+# *.onnx
+
+# # --- Specialized Scripts / Hardware Tests ---
+# # Keeping your specific requested files ignored
+# training/merge_files.py
+# testing/hardware_benchmark.py
+
+# # --- IDEs / OS ---
+# .vscode/
+# .idea/
+# .DS_Store
 # --- Python / Environment ---
+venv/
 .venv/
 __pycache__/
 *.py[cod]
 *$py.class
+*.rdb
 .env
 
 # --- Project Specific Data ---
